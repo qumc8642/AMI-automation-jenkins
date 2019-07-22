@@ -6,7 +6,7 @@ pipeline {
         sh '''echo Navigating to correct directory
 cd ~/../../../
 cd home/
-cd jenkinsPythonScript
+cd jenkins
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType}'''
         script {
           echo "Entered DeployName: ${DeployName}, AMI_ID: ${AMIId}, Instance Type: ${InstanceType}"
