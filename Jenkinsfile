@@ -15,8 +15,34 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType}'''
       }
     }
     stage('Test AMI') {
-      steps {
-        echo 'Tests go here'
+      parallel {
+        stage('Test AMI') {
+          steps {
+            sh '''echo Navigating to correct directory
+cd ~/../../../
+cd home/
+cd jenkins
+python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
+          }
+        }
+        stage('test2') {
+          steps {
+            sh '''echo Navigating to correct directory
+cd ~/../../../
+cd home/
+cd jenkins
+python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
+          }
+        }
+        stage('test') {
+          steps {
+            sh '''echo Navigating to correct directory
+cd ~/../../../
+cd home/
+cd jenkins
+python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
+          }
+        }
       }
     }
     stage('Log Results') {
