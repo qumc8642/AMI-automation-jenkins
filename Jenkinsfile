@@ -21,8 +21,8 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType}'''
     }
     stage('Log Results') {
       steps {
-        echo 'test'
-        s3Upload(file: 'test.txt', bucket: 'jenkins-log-scratch', path: '/', acl: 'BucketOwnerFullControl')
+        echo 'Verifying s3 log file'
+        sh 'python3 AMICreatePython.py verifyLogFile ${DeployName} ${AMIId} ${InstanceType}'
       }
     }
     stage('Deploy') {
