@@ -22,7 +22,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType}'''
     stage('Log Results') {
       steps {
         echo 'Verifying s3 log file'
-        sh 'python3 AMICreatePython.py verifyLogFile ${DeployName} ${AMIId} ${InstanceType}'
+        sh '''echo Navigating to correct directory
+cd ~/../../../
+cd home/
+cd jenkins
+python3 AMICreatePython.py verifyLogFile ${DeployName} ${AMIId} ${InstanceType}'''
       }
     }
     stage('Deploy') {
