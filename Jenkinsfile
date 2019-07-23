@@ -9,7 +9,7 @@ pipeline {
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} isRunning'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} createAMI'''
             script {
               echo "Entered DeployName: ${DeployName}, AMI_ID: ${AMIId}, Instance Type: ${InstanceType}"
             }
