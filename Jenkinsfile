@@ -2,16 +2,28 @@ pipeline {
   agent any
   stages {
     stage('Create AMI') {
-      steps {
-        sh '''echo Navigating to correct directory
+      parallel {
+        stage('Create AMI') {
+          steps {
+            sh '''echo Navigating to correct directory
 cd ~/../../../
 cd home/
 cd jenkins
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType}'''
-        script {
-          echo "Entered DeployName: ${DeployName}, AMI_ID: ${AMIId}, Instance Type: ${InstanceType}"
-        }
+            script {
+              echo "Entered DeployName: ${DeployName}, AMI_ID: ${AMIId}, Instance Type: ${InstanceType}"
+            }
 
+          }
+        }
+        stage('Wait for AMI to boot') {
+          steps {
+            sh '''cd ~/../../../
+cd home/
+cd jenkins
+python3 AMICreatePython.py testInstance ${DeployName} isRunning'''
+          }
+        }
       }
     }
     stage('Test AMI') {
