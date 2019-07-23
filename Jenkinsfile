@@ -16,14 +16,14 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType}'''
 
           }
         }
-        stage('Wait for AMI to boot') {
-          steps {
-            sh '''cd ~/../../../
+      }
+    }
+    stage('Wait for AMI to boot') {
+      steps {
+        sh '''cd ~/../../../
 cd home/
 cd jenkins
 python3 AMICreatePython.py testInstance ${DeployName} isRunning'''
-          }
-        }
       }
     }
     stage('Test AMI') {
