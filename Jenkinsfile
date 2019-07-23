@@ -23,7 +23,7 @@ python3 AMICreatePython.py deployAMI ${DeployName} ${AMIId} ${InstanceType}'''
         sh '''cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} isRunning'''
+python3 AMICreatePython.py testInstance ${DeployName} isRunning ${AMIId}'''
       }
     }
     stage('Test AMI') {
@@ -34,7 +34,7 @@ python3 AMICreatePython.py testInstance ${DeployName} isRunning'''
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
+python3 AMICreatePython.py testInstance ${DeployName} testPython ${AMIId}'''
           }
         }
         stage('test2') {
@@ -43,7 +43,7 @@ python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
+python3 AMICreatePython.py testInstance ${DeployName} testOther ${AMIId}'''
           }
         }
         stage('test') {
@@ -52,7 +52,7 @@ python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} ${AMIId}'''
+python3 AMICreatePython.py testInstance ${DeployName} testOther ${AMIId}'''
           }
         }
       }
