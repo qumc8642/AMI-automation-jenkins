@@ -9,7 +9,7 @@ pipeline {
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py deployAMI ${DeployName} ${AMIId} ${InstanceType}'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} isRunning'''
             script {
               echo "Entered DeployName: ${DeployName}, AMI_ID: ${AMIId}, Instance Type: ${InstanceType}"
             }
@@ -23,7 +23,7 @@ python3 AMICreatePython.py deployAMI ${DeployName} ${AMIId} ${InstanceType}'''
         sh '''cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} isRunning ${AMIId}'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance'''
       }
     }
     stage('Test AMI') {
@@ -34,7 +34,7 @@ python3 AMICreatePython.py testInstance ${DeployName} isRunning ${AMIId}'''
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} testPython ${AMIId}'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance isRunning'''
           }
         }
         stage('test2') {
@@ -43,7 +43,7 @@ python3 AMICreatePython.py testInstance ${DeployName} testPython ${AMIId}'''
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} testOther ${AMIId}'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance a'''
           }
         }
         stage('test') {
@@ -52,7 +52,7 @@ python3 AMICreatePython.py testInstance ${DeployName} testOther ${AMIId}'''
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py testInstance ${DeployName} testOther ${AMIId}'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance b'''
           }
         }
       }
@@ -64,7 +64,7 @@ python3 AMICreatePython.py testInstance ${DeployName} testOther ${AMIId}'''
 cd ~/../../../
 cd home/
 cd jenkins
-python3 AMICreatePython.py verifyLogFile ${DeployName} ${AMIId} ${InstanceType}'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} verifyLogFile'''
       }
     }
     stage('Deploy') {
