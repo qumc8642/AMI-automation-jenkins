@@ -30,12 +30,14 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       parallel {
         stage('Grab Shelling IP') {
           steps {
-            sh '''echo Navigating to correct directory
-cd ~/../../../
-cd home/
-cd jenkins'''
             script {
-              def ret = sh(script: 'python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP', returnStdout: true)
+              def ret = sh(script: """
+              cd ~/../../../
+              cd home/
+              cd jenkins
+              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+              """, returnStdout: true)
+
               println ret
             }
 
