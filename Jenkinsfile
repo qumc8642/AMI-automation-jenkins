@@ -40,10 +40,6 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
               println IP
             }
 
-            script {
-              println IP
-            }
-
           }
         }
         stage('test') {
