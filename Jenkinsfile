@@ -28,13 +28,17 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
     }
     stage('Test AMI') {
       parallel {
-        stage('Test AMI') {
+        stage('Grab Shelling IP') {
           steps {
             sh '''echo Navigating to correct directory
 cd ~/../../../
 cd home/
-cd jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance test'''
+cd jenkins'''
+            script {
+              def ret = sh(script: 'python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP', returnStdout: true)
+              println ret
+            }
+
           }
         }
         stage('test2') {
