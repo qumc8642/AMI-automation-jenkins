@@ -27,6 +27,9 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       }
     }
     stage('Test AMI') {
+      environment {
+        PUBLIC_IP = '0'
+      }
       parallel {
         stage('Grab Shelling IP') {
           steps {
