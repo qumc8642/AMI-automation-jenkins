@@ -51,7 +51,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         stage('test2') {
           steps {
             script {
-              println publicIP
+              println ${publicIP}
             }
 
           }
@@ -59,7 +59,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         stage('test') {
           steps {
             script {
-              println publicIP
+              println ${publicIP}
             }
 
           }
