@@ -31,20 +31,23 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         stage('Grab Shelling IP') {
           steps {
             script {
-              def IP = sh(script: """
+              PUBLIC_IP = sh(script: """
               cd ~/../../../
               cd home/
               cd jenkins
               python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
               """, returnStdout: true)
-              println IP
+              println PUBLIC_IP
             }
 
           }
         }
         stage('test') {
           steps {
-            sh 'echo hello'
+            script {
+              println PUBLIC_IP
+            }
+
           }
         }
       }
