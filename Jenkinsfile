@@ -27,6 +27,9 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       }
     }
     stage('Test AMI') {
+      environment {
+        publicIP = ''
+      }
       parallel {
         stage('Grab Shelling IP') {
           steps {
@@ -45,20 +48,18 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         }
         stage('test2') {
           steps {
-            sh '''echo Navigating to correct directory
-cd ~/../../../
-cd home/
-cd jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance a'''
+            script {
+              println publicIP
+            }
+
           }
         }
         stage('test') {
           steps {
-            sh '''echo Navigating to correct directory
-cd ~/../../../
-cd home/
-cd jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance b'''
+            script {
+              println publicIP
+            }
+
           }
         }
       }
