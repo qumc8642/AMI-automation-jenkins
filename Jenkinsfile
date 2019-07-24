@@ -34,7 +34,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         stage('Grab Shelling IP') {
           steps {
             script {
-              env.PUBLIC_IP = sh(script: """
+              PUBLIC_IP = sh(script: """
               cd ~/../../../
               cd home/
               cd jenkins
