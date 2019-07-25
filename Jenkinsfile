@@ -28,23 +28,23 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
     }
     stage('Test AMI') {
       environment {
-        PUBLIC_IP = sh(script: """
-                                                                                                                                              cd ~/../../../
-                                                                                                                                              cd home/
-                                                                                                                                              cd jenkins
-                                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
-                                                                                                                                              """, returnStdout: true)
         SSH_CREDS = credentials('tduser')
+        PRIVATE_IP = sh(script: """
+                                                                                                                                                              cd ~/../../../
+                                                                                                                                                              cd home/
+                                                                                                                                                              cd jenkins
+                                                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+                                                                                                                                                              """, returnStdout: true)
       }
       parallel {
         stage('Grab Shelling IP') {
           steps {
             script {
-              if (env.PUBLIC_IP == "Instance not found")
+              if (env.PRIVATE_IP == "Instance not found")
               {
                 error("The Instance booted cannot be found, IP grab failed")
               } else {
-                echo "Public IP of AMI Instance: ${PUBLIC_IP} now shelling for tests"
+                echo "Private IP of AMI Instance: ${PRIVATE_IP} now shelling for tests"
               }
             }
 
@@ -53,7 +53,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         stage('test') {
           steps {
             script {
-              println env.PUBLIC_IP
+              println env.PRIVATE
               sh 'echo "SSH private key is located at $SSH_CREDS"'
               sh 'echo "SSH user is $SSH_CREDS_USR"'
             }
