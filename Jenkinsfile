@@ -37,7 +37,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
               cd jenkins
               python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
               """, returnStdout: true)
-              echo ${PUBLIC_IP}
+              echo "${PUBLIC_IP}"
             }
 
           }
@@ -45,7 +45,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         stage('test') {
           steps {
             script {
-              echo ${PUBLIC_IP}
+              echo "${PUBLIC_IP}"
             }
 
           }
