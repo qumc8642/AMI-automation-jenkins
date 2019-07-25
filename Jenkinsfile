@@ -27,9 +27,6 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       }
     }
     stage('Test AMI') {
-      environment {
-        PUBLIC_IP = '0'
-      }
       parallel {
         stage('Grab Shelling IP') {
           steps {
@@ -40,7 +37,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
               cd jenkins
               python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
               """, returnStdout: true)
-              println PUBLIC_IP
+              echo ${PUBLIC_IP}
             }
 
           }
@@ -48,7 +45,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
         stage('test') {
           steps {
             script {
-              println PUBLIC_IP
+              echo ${PUBLIC_IP}
             }
 
           }
