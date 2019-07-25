@@ -29,11 +29,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
     stage('Test AMI') {
       environment {
         PUBLIC_IP = sh(script: """
-                                                                              cd ~/../../../
-                                                                              cd home/
-                                                                              cd jenkins
-                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
-                                                                              """, returnStdout: true)
+                                                                                              cd ~/../../../
+                                                                                              cd home/
+                                                                                              cd jenkins
+                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+                                                                                              """, returnStdout: true)
       }
       parallel {
         stage('Grab Shelling IP') {
@@ -74,6 +74,18 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} verifyLogFile'
         catchError()
       }
     }
+  }
+  post {
+    failure {
+      echo 'Verifying s3 log file'
+      sh '''echo Navigating to correct directory
+cd ~/../../../
+cd home/
+cd jenkins
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} verifyLogFile'''
+
+    }
+
   }
   parameters {
     string(name: 'AMIId', defaultValue: 'None', description: 'Enter an AMI ID to boot up and test')
