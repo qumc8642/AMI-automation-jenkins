@@ -29,11 +29,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
     stage('Test AMI') {
       environment {
         PUBLIC_IP = sh(script: """
-                                                                                                              cd ~/../../../
-                                                                                                              cd home/
-                                                                                                              cd jenkins
-                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
-                                                                                                              """, returnStdout: true)
+                                                                                                                              cd ~/../../../
+                                                                                                                              cd home/
+                                                                                                                              cd jenkins
+                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+                                                                                                                              """, returnStdout: true)
       }
       parallel {
         stage('Grab Shelling IP') {
