@@ -30,11 +30,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       environment {
         SSH_CREDS = credentials('jenkins-scratch')
         PRIVATE_IP = sh(script: """
-                                                                                                                                                                                              cd ~/../../../
-                                                                                                                                                                                              cd home/
-                                                                                                                                                                                              cd jenkins
-                                                                                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
-                                                                                                                                                                                              """, returnStdout: true)
+                                                                                                                                                                                                      cd ~/../../../
+                                                                                                                                                                                                      cd home/
+                                                                                                                                                                                                      cd jenkins
+                                                                                                                                                                                                      python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+                                                                                                                                                                                                      """, returnStdout: true)
       }
       parallel {
         stage('Grab Shelling IP') {
@@ -54,8 +54,8 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
           steps {
             script {
               println env.PRIVATE
-              sh 'echo "SSH private key is located at $SSH_CREDS"'
-              sh 'echo "SSH user is $SSH_CREDS_USR"'
+              sh 'ssh -i $SSH_CREDS $SSH_CREDS_USR@env.PRIVATEIP'
+
             }
 
           }
