@@ -30,11 +30,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       environment {
         SSH_CREDS = credentials('jenkins-scratch')
         PRIVATE_IP = sh(script: """
-                                                                                                                                                                                                                                                                                                                                              cd ~/../../../
-                                                                                                                                                                                                                                                                                                                                              cd home/
-                                                                                                                                                                                                                                                                                                                                              cd jenkins
-                                                                                                                                                                                                                                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
-                                                                                                                                                                                                                                                                                                                                              """, returnStdout: true)
+                                                                                                                                                                                                                                                                                                                                                              cd ~/../../../
+                                                                                                                                                                                                                                                                                                                                                              cd home/
+                                                                                                                                                                                                                                                                                                                                                              cd jenkins
+                                                                                                                                                                                                                                                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+                                                                                                                                                                                                                                                                                                                                                              """, returnStdout: true)
       }
       parallel {
         stage('Grab Shelling IP') {
@@ -88,7 +88,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} verifyLogFile'
     }
 
     always {
-      googlechatnotification(url: 'https://chat.googleapis.com/v1/spaces/AAAArsfukF8/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=QhVdpCSzJ9_2jmJL6R_NLAqcA5UOCf0WUNlJ2Farb7c%3D', message: 'AMI creation and test status report', notifyAborted: 'true', notifyFailure: 'true', notifyNotBuilt: 'true', notifySuccess: 'true', notifyUnstable: 'true', notifyBackToNormal: 'true', suppressInfoLoggers: 'true', sameThreadNotification: 'true')
+      googlechatnotification(url: 'https://chat.googleapis.com/v1/spaces/AAAArsfukF8/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=QhVdpCSzJ9_2jmJL6R_NLAqcA5UOCf0WUNlJ2Farb7c%3D', message: 'AMI creation and test status report')
 
     }
 
