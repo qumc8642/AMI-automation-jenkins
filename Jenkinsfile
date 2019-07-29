@@ -30,11 +30,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       environment {
         SSH_CREDS = credentials('jenkins-scratch')
         PRIVATE_IP = sh(script: """
-                                                                                                                                                                                                                                                                                                                      cd ~/../../../
-                                                                                                                                                                                                                                                                                                                      cd home/
-                                                                                                                                                                                                                                                                                                                      cd jenkins
-                                                                                                                                                                                                                                                                                                                      python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
-                                                                                                                                                                                                                                                                                                                      """, returnStdout: true)
+                                                                                                                                                                                                                                                                                                                              cd ~/../../../
+                                                                                                                                                                                                                                                                                                                              cd home/
+                                                                                                                                                                                                                                                                                                                              cd jenkins
+                                                                                                                                                                                                                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+                                                                                                                                                                                                                                                                                                                              """, returnStdout: true)
       }
       parallel {
         stage('Grab Shelling IP') {
@@ -72,7 +72,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} verifyLogFile'
     }
     stage('Deploy') {
       steps {
-        catchError()
+        echo 'AMI successfully deployed on AWS Scratch Environment'
       }
     }
   }
