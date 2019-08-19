@@ -5,10 +5,7 @@ pipeline {
       parallel {
         stage('Create AMI') {
           steps {
-            sh '''echo Navigating to correct directory
-cd ~/../../../
-cd home/
-cd jenkins
+            sh '''cd /home/jenkins
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} createAMI'''
             script {
               echo "Entered DeployName: ${DeployName}, AMI_ID: ${AMIId}, Instance Type: ${InstanceType}"
@@ -20,9 +17,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} createAMI'''
     }
     stage('Wait for AMI to boot') {
       steps {
-        sh '''cd ~/../../../
-cd home/
-cd jenkins
+        sh '''cd /home/jenkins
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance isRunning'''
       }
     }
@@ -30,11 +25,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       environment {
         SSH_CREDS = credentials('jenkins-scratch')
         PRIVATE_IP = sh(script: """
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      cd ~/../../../
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      cd home/
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      cd jenkins
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      """, returnStdout: true)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              cd ~/../../../
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              cd home/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              cd jenkins
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance grabIP
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              """, returnStdout: true)
       }
       parallel {
         stage('Grab Shelling IP') {
@@ -54,20 +49,15 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
     }
     stage('Test remote instance') {
       steps {
-        sh '''cd ~/../../../
-cd home/
-cd jenkins
+        sh '''cd /home/jenkins
 aws ssm send-command         --targets "Key=Name,Values=${DeployName}"         --document-name "AWS-RunShellScript"         --parameters commands=["bash /home/jenkins/testscript.sh"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region us-east-1'''
       }
     }
     stage('Log Results') {
       steps {
         echo 'Verifying s3 log file'
-        sh '''echo Navigating to correct directory
-cd ~/../../../
-cd home/
-cd jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} verifyLogFile'''
+        sh '''cd /home/jenkins
+aws s3 cp '''
       }
     }
     stage('Deploy') {
