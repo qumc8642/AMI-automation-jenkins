@@ -22,6 +22,11 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       }
     }
     stage('Test remote instance') {
+      environment {
+        INSTANCE_ID = sh(script: '''
+cd /home/jenkins
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , returnStdout: true).trim()
+      }
       steps {
         sh '''cd /home/jenkins
 aws ssm send-command         --targets "Key=instanceids,Values=${INSTANCE_ID}"         --document-name "AWS-RunShellScript"         --parameters commands=["bash /home/jenkins/testscript.sh"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region "us-east-1"'''
@@ -39,11 +44,6 @@ aws s3 cp '''
         echo 'AMI successfully deployed on AWS Scratch Environment'
       }
     }
-  }
-  environment {
-    INSTANCE_ID = sh(script: '''
-cd /home/jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , returnStdout: true).trim()
   }
   post {
     failure {
