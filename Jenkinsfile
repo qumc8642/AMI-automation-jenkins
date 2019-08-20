@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('Create AMI') {
+    stage('Launch Instance') {
       parallel {
-        stage('Create AMI') {
+        stage('Launching Instance (Python)') {
           steps {
             sh '''cd /home/jenkins
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} createAMI'''
@@ -15,7 +15,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} createAMI'''
         }
       }
     }
-    stage('Wait for AMI to boot') {
+    stage('Wait for instance to boot') {
       steps {
         sh '''cd /home/jenkins
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance isRunning'''
@@ -29,7 +29,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , 
       }
       steps {
         sh '''cd /home/jenkins
-aws ssm send-command         --targets "Key=InstanceIds,Values=${INSTANCE_ID}"         --document-name "AWS-RunShellScript"         --parameters commands=["echo "Hello world"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region "us-east-1"'''
+aws ssm send-command         --targets "Key=InstanceIds,Values=${INSTANCE_ID}"         --document-name "AWS-RunShellScript"         --parameters commands=["echo Hello world"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region "us-east-1"'''
       }
     }
     stage('Log Results') {
