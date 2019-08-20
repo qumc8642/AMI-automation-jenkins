@@ -22,15 +22,17 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
       }
     }
     stage('Grab instance ID for unit testing') {
+      environment {
+        INSTANCE_ID = """
+                  cd /home/jenkins
+                  python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
+                """
+      }
       steps {
-        script {
-          env.INSTANCE_ID = sh """
-          cd /home/jenkins
-          python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
-          """
-          echo env.INSTANCE_ID
-        }
-
+        sh """
+                  cd /home/jenkins
+                  python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
+                """
       }
     }
     stage('Test remote instance') {
