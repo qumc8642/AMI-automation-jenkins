@@ -23,16 +23,19 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance i
     }
     stage('Grab instance ID for unit testing') {
       environment {
-        INSTANCE_ID = """
-                  cd /home/jenkins
-                  python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
-                """
+        INSTANCE_ID = sh(script: '''
+cd /home/jenkins
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , returnStdout: true).trim()
       }
       steps {
+        script {
+          echo ${INSTANCE_ID}
+        }
+
         sh """
-                  cd /home/jenkins
-                  python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
-                """
+                                  cd /home/jenkins
+                                  python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
+                                """
       }
     }
     stage('Test remote instance') {
