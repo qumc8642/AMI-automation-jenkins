@@ -21,23 +21,6 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} createAMI'''
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance isRunning'''
       }
     }
-    stage('Grab instance ID for unit testing') {
-      environment {
-        INSTANCE_ID = sh(script: '''
-cd /home/jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , returnStdout: true).trim()
-      }
-      steps {
-        script {
-          echo ${INSTANCE_ID}
-        }
-
-        sh """
-                                  cd /home/jenkins
-                                  python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
-                                """
-      }
-    }
     stage('Test remote instance') {
       steps {
         sh '''cd /home/jenkins
@@ -56,6 +39,11 @@ aws s3 cp '''
         echo 'AMI successfully deployed on AWS Scratch Environment'
       }
     }
+  }
+  environment {
+    INSTANCE_ID = sh(script: '''
+cd /home/jenkins
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , returnStdout: true).trim()
   }
   post {
     failure {
