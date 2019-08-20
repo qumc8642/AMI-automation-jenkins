@@ -21,37 +21,22 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} createAMI'''
 python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} testInstance isRunning'''
       }
     }
-    stage('Test AMI') {
-      environment {
-        SSH_CREDS = credentials('jenkins-scratch')
-        INSTANCE_ID = sh(script: """
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              cd /home/jenkins                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              """, returnStdout: true)
-      }
-      parallel {
-        stage('Grab Instance ID for testing') {
-          steps {
-            sh '''
-cd /home/jenkins
-python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID
-'''
-            script {
-              if (env.INSTANCE_ID == -1)
-              {
-                error("The Instance booted cannot be found, IP grab failed")
-              } else {
-                echo "Private IP of AMI Instance: ${INSTANCE_ID} now shelling for tests"
-              }
-            }
-
-          }
+    stage('Grab instance ID for unit testing') {
+      steps {
+        script {
+          env.INSTANCE_ID = sh """
+          cd /home/jenkins
+          python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabIP
+          """
+          echo env.INSTANCE_ID
         }
+
       }
     }
     stage('Test remote instance') {
       steps {
         sh '''cd /home/jenkins
-aws ssm send-command         --targets "Key=instanceids,Values=${INSTANCE_ID}"         --document-name "AWS-RunShellScript"         --parameters commands=["bash /home/jenkins/testscript.sh"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region "us-east-1"'''
+aws ssm send-command         --targets "Key=instanceids,Values=env.INSTANCE_ID"         --document-name "AWS-RunShellScript"         --parameters commands=["bash /home/jenkins/testscript.sh"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region "us-east-1"'''
       }
     }
     stage('Log Results') {
