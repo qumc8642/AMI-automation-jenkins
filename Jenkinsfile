@@ -29,7 +29,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , 
       }
       steps {
         sh '''cd /home/jenkins
-aws ssm send-command         --targets "Key=instanceids,Values=${INSTANCE_ID}"         --document-name "AWS-RunShellScript"         --parameters commands=["bash /home/jenkins/testscript.sh"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region "us-east-1"'''
+aws ssm send-command         --instance-ids ${INSTANCE_ID}         --document-name "AWS-RunShellScript"         --parameters commands=["bash /home/jenkins/testscript.sh"]         --comment "Run unit test sh script"     --output-s3-bucket-name "jenkins-log-scratch"      --region "us-east-1"'''
       }
     }
     stage('Log Results') {
