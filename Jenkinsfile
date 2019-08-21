@@ -37,7 +37,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} unitTestInstan
       steps {
         echo 'Verifying s3 log file'
         sh '''cd /home/jenkins
-aws s3 cp '''
+'''
       }
     }
     stage('Deploy') {
