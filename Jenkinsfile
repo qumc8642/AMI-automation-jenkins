@@ -30,9 +30,7 @@ python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} grabID''' , , 
       steps {
         sh '''cd /home/jenkins
 
-aws ec2 describe-instances --region "us-east-1"
-
-aws ssm send-command --region "us-east-1" --targets "Key=tag:Name,Values=${DeployName}" --document-name "AWS-RunShellScript" --parameters commands=["echo Hello world"] --comment "Run unit test sh script" --output-s3-bucket-name "jenkins-log-scratch"'''
+python3 AMICreatePython.py ${DeployName} ${AMIId} ${InstanceType} unitTestInstance'''
       }
     }
     stage('Log Results') {
